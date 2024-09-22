@@ -1,0 +1,51 @@
+body {
+    background: #FFF8E8;
+    font-family: "Pacifino";
+}
+
+.heading {
+    color: #674636;
+}
+
+.row {
+    width: 100%;
+}
+
+.timer {
+    color: #674636;
+    text-align: center;
+    width: 20rem;
+    height: 20rem;
+    border: 5px solid #F7EED3;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    background-color: transparent;
+    padding: 0;
+}
+
+.fa-play, .fa-redo-alt {
+    color: #AAB396;
+    border: 2px solid transparent;
+    padding: 1rem;
+    border-radius: 2rem;
+}
+
+.fa-play:hover, .fa-redo-alt:hover {
+    color: #AAB996;
+    border: 2px solid #AAB996;
+    transition: 0.5s ease;
+}
+
+.show_message {
+    display: block;
+    padding: 1rem 0;
+    color: #000;
+    background: #AAB996;
+    border-radius: 0.5rem;
+    transition: 0.5s ease;
+}
