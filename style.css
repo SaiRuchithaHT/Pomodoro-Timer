@@ -5,27 +5,64 @@ body {
 
 .heading {
     color: #674636;
+    font-size: 60px;
 }
 
 .row {
     width: 100%;
+    padding-top: 2em 0 0 0;
+}
+
+#minutes, #colon, #seconds {
+    font-size: 70px;
+    font-weight: 500;
+    padding: 0.5em 0 0 0;
 }
 
 .timer {
     color: #674636;
-    text-align: center;
-    width: 20rem;
-    height: 20rem;
+    text-align: -webkit-center;
+    width: 30em;
+    height: 20em;
     border: 5px solid #F7EED3;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border-radius: 3%;
 }
 
+.timerBtns {
+    padding: 0.5em 0 0.5em 0;
+}
+
+.innerTimer {
+    font-size: 20px;
+    display: inline-flex;
+    padding: 1em 1em 1em 1em;
+    margin: 0 0 0 0;
+    text-align: center;
+    flex-wrap: wrap;
+    cursor: pointer;
+    background: #fef5df;
+    border-color: #f7f1e2;
+    border-radius: 4px;
+}
+
+.innerTimer:hover {
+    /* color: #AAB996; */
+    background-color: #F7EED3;
+}
+
+.innerTimer:focus {
+    outline: none; 
+    border-color: #AAB996; 
+}
+
+
 .btn {
-    background-color: transparent;
+    background-color: #F7EED3;
     padding: 0;
+    display: block;
+    padding: 1em 2em 1em 2em;
+    font-size: 2em;
+    border-radius: 5px;
 }
 
 .fa-play, .fa-redo-alt {
