@@ -1,11 +1,12 @@
 body {
-    background: #FFF8E8;
-    font-family: "Pacifino";
+    background: rgb(186, 73, 73);
+    font-family: "Arial Rounded", Arial, sans-serif;
 }
 
 .heading {
-    color: #674636;
+    color: #ffffff;
     font-size: 60px;
+    font-family: "Arial Rounded", Arial, sans-serif;
 }
 
 .row {
@@ -20,44 +21,22 @@ body {
 }
 
 .timer {
-    color: #674636;
+    color: #ffffff;
     text-align: -webkit-center;
     width: 30em;
     height: 20em;
-    border: 5px solid #F7EED3;
     border-radius: 3%;
+    background: rgb(200, 85, 85);
 }
 
 .timerBtns {
     padding: 0.5em 0 0.5em 0;
 }
 
-.innerTimer {
-    font-size: 20px;
-    display: inline-flex;
-    padding: 1em 1em 1em 1em;
-    margin: 0 0 0 0;
-    text-align: center;
-    flex-wrap: wrap;
-    cursor: pointer;
-    background: #fef5df;
-    border-color: #f7f1e2;
-    border-radius: 4px;
-}
-
-.innerTimer:hover {
-    /* color: #AAB996; */
-    background-color: #F7EED3;
-}
-
-.innerTimer:focus {
-    outline: none; 
-    border-color: #AAB996; 
-}
-
-
 .btn {
-    background-color: #F7EED3;
+    font-family: "Arial Rounded", Arial, sans-serif;
+    color: rgb(186, 73, 73);
+    background-color: #ffffff;
     padding: 0;
     display: block;
     padding: 1em 2em 1em 2em;
@@ -65,24 +44,26 @@ body {
     border-radius: 5px;
 }
 
-.fa-play, .fa-redo-alt {
-    color: #AAB396;
-    border: 2px solid transparent;
-    padding: 1rem;
-    border-radius: 2rem;
+.studyBtn, .shortBrkBtn,  .longBrkBtn {
+    color: #fff;
+    font-size: 20px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    text-align: center;
+    background: rgb(200, 85, 85);
+    cursor: pointer;
+    padding: 1em 1em 1em 1em;
 }
 
-.fa-play:hover, .fa-redo-alt:hover {
-    color: #AAB996;
-    border: 2px solid #AAB996;
-    transition: 0.5s ease;
+.studyBtn:hover, .shortBrkBtn:hover,  .longBrkBtn:hover {
+    background-color: rgb(186, 73, 73);
 }
 
 .show_message {
     display: block;
     padding: 1rem 0;
-    color: #000;
-    background: #AAB996;
+    color: rgb(186, 73, 73);
+    background: #ffffff;
     border-radius: 0.5rem;
     transition: 0.5s ease;
 }

@@ -1,5 +1,6 @@
 var minutes = 25;
 var seconds = "00";
+var timerState = "study";
 var minutes_interval;
 var seconds_interval;
 var message_interval;
@@ -19,7 +20,11 @@ function start(){
     document.getElementById("start").style.display = "none";
     document.getElementById("reset").style.display = "inline";  
 
-    minutes = 24;
+    if(timerState=="study"){
+        minutes = 24;
+    } else if (timerState=="shortBreak"){
+        minutes = 4;
+    }
     seconds = 59;
 
     // Update the displayed time
@@ -39,8 +44,9 @@ function start(){
     function secondsTimer(){
         seconds = seconds - 1;
         document.getElementById("seconds").innerHTML = seconds;
-        if(seconds == 55){
-            if(minutes == 24){
+        //change
+        if(seconds == 0){
+            if(minutes == 0){
                 // Stop timers
                 clearInterval(minutes_interval);
                 clearInterval(seconds_interval);
@@ -49,14 +55,11 @@ function start(){
                 document.getElementById("done").innerHTML = "Session Completed! Take a Break!";
                 document.getElementById("done").classList.add("show_message");
                 var message_interval = setInterval(messageTimer, 5000);
-                clearInterval(messageTimer);
+                clearInterval(message_interval);
 
                 // Ring bell and reset timer
                 bell.play();
-                minutes = 25;
-                seconds = "00";
-                document.getElementById("minutes").innerHTML = minutes;
-                document.getElementById("seconds").innerHTML = seconds;
+                resetTimer();
 
                 // Update Buttons once message is shown
                 document.getElementById("start").style.display = "inline"; 
@@ -69,6 +72,18 @@ function start(){
         }
     }
 }
+ function resetTimer(){
+    if(timerState=="study"){
+        minutes = 5;
+        timerState = "shortBreak";
+    } else if (timerState=="shortBreak"){
+        minutes = 25;
+        timerState = "study";
+    }
+    seconds = "00";
+    document.getElementById("minutes").innerHTML = minutes;
+    document.getElementById("seconds").innerHTML = seconds;
+ }
 
 function reset() {
     // Stop any ongoing timers
@@ -77,10 +92,7 @@ function reset() {
     
     // Reset minutes and seconds
     resetAudio.play();
-    minutes = 25;
-    seconds = "00";
-    document.getElementById("minutes").innerHTML = minutes;
-    document.getElementById("seconds").innerHTML = seconds;
+    resetTimer();
     
     // Play reset and Reset the "done" message
     // reset.play();

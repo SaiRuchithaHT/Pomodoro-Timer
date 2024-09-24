@@ -37,11 +37,12 @@
             <h1 class="text-center my-5 heading">POMODORO APP</h1>
 
             <!-- Main Timer-->
+
             <div class="container timer">
                 <div class="timerBtns">
-                    <button class="innerTimer" onclick="reset()">Study Timer</button>
-                    <button class="innerTimer">Short Break</button>
-                    <button class="innerTimer">Long Break</button>
+                    <button class="btn studyBtn" onclick="reset()" id="studyBtn">Study Timer</button>
+                    <button class="btn shortBrkBtn" onclick="reset()" id="shortBrkBtn">Short Break</button>
+                    <button class="btn longBrkBtn" onclick="reset()" id="longBrkBtn">Long Break</button>
                 </div>
                 <div class="row" >
                     <div class="col-5">
@@ -59,14 +60,10 @@
             <!-- Start and Reset Button -->
             <div class="container d-flex justify-content-center align-items-center my-5">
                 <button id="start" class="btn" onclick="start()">
-                    <!-- <i class="fas fa-play fa-2x"></i> -->
                     START
                 </button>
                 <button id="reset" class="btn" style="display: none;" onclick="reset()">
-                    <!-- <a href="index.html" > -->
-                        <!-- <i class="fas fa-redo-alt fa-2x"></i> -->
-                         RESET
-                    <!-- </a> -->
+                    RESET
                 </button>
             </div>
             
