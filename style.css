@@ -33,6 +33,19 @@ body {
     padding: 0.5em 0 0.5em 0;
 }
 
+.sessionDetails {
+    color: #fff;
+    text-align: center;
+    padding: 3em 0 0 0;
+}
+
+.refresh {
+    color: #fff;
+    text-align: center;
+    margin: 0 0 0 1em;
+    /* background-color: rgb(186, 73, 73); */
+}
+
 .btn {
     font-family: "Arial Rounded", Arial, sans-serif;
     color: rgb(186, 73, 73);

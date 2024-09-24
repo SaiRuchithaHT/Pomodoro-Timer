@@ -1,6 +1,7 @@
 var minutes = 25;
 var seconds = "00";
 var timerState = "study";
+var sessionCount = 1;
 var minutes_interval;
 var seconds_interval;
 var message_interval;
@@ -24,6 +25,8 @@ function start(){
         minutes = 24;
     } else if (timerState=="shortBreak"){
         minutes = 4;
+    } else if (timerState=="longBreak"){
+        minutes = 14;
     }
     seconds = 59;
 
@@ -74,11 +77,20 @@ function start(){
 }
  function resetTimer(){
     if(timerState=="study"){
-        minutes = 5;
-        timerState = "shortBreak";
-    } else if (timerState=="shortBreak"){
+        if(sessionCount%4 == 0){
+            minutes = 15;
+            timerState = "longBreak";
+            document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Long Break: You've earned it!";
+        } else {
+            minutes = 5;
+            timerState = "shortBreak";
+            document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Short Break: Relax!";
+        }
+    } else {
         minutes = 25;
         timerState = "study";
+        sessionCount = sessionCount + 1;
+        document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Time to Study!";
     }
     seconds = "00";
     document.getElementById("minutes").innerHTML = minutes;
