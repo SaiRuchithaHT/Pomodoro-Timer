@@ -1,0 +1,82 @@
+body {
+    background: rgb(186, 73, 73);
+    font-family: "Arial Rounded", Arial, sans-serif;
+}
+
+.heading {
+    color: #ffffff;
+    font-size: 60px;
+    font-family: "Arial Rounded", Arial, sans-serif;
+}
+
+.row {
+    width: 100%;
+    padding-top: 2em 0 0 0;
+}
+
+#minutes, #colon, #seconds {
+    font-size: 70px;
+    font-weight: 500;
+    padding: 0.5em 0 0 0;
+}
+
+.timer {
+    color: #ffffff;
+    text-align: -webkit-center;
+    width: 30em;
+    height: 20em;
+    border-radius: 3%;
+    background: rgb(200, 85, 85);
+}
+
+.timerBtns {
+    padding: 0.5em 0 0.5em 0;
+}
+
+.sessionDetails {
+    color: #fff;
+    text-align: center;
+    padding: 1.5em 0 0 0;
+}
+
+.refresh {
+    color: #fff;
+    text-align: center;
+    margin: 0 0 0 1em;
+    /* background-color: rgb(186, 73, 73); */
+}
+
+.btn {
+    font-family: "Arial Rounded", Arial, sans-serif;
+    color: rgb(186, 73, 73);
+    background-color: #ffffff;
+    padding: 0;
+    display: block;
+    padding: 0.5em 1em 0.5em 1em;
+    font-size: 2em;
+    border-radius: 5px;
+}
+
+.studyBtn, .shortBrkBtn,  .longBrkBtn {
+    color: #fff;
+    font-size: 20px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    text-align: center;
+    background: rgb(200, 85, 85);
+    cursor: pointer;
+    padding: 1em 1em 1em 1em;
+}
+
+.studyBtn:hover, .shortBrkBtn:hover,  .longBrkBtn:hover {
+    background-color: rgb(186, 73, 73);
+}
+
+.show_message {
+    display: block;
+    padding: 1rem 0;
+    color: rgb(186, 73, 73);
+    background: #ffffff;
+    border-radius: 0.5rem;
+    transition: 0.5s ease;
+}
