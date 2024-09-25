@@ -13,6 +13,7 @@ var resetAudio = new Audio("./audios/reset.mp3");
 function template(){
     document.getElementById("minutes").innerHTML = minutes;
     document.getElementById("seconds").innerHTML = seconds;
+    document.getElementById("studyBtn").style.backgroundColor = "rgb(186, 73, 73)";
 }
 
 function start(){
@@ -48,8 +49,8 @@ function start(){
         seconds = seconds - 1;
         document.getElementById("seconds").innerHTML = seconds;
         //change
-        if(seconds == 0){
-            if(minutes == 0){
+        if(seconds <= 0){
+            if(minutes <= 0){
                 // Stop timers
                 clearInterval(minutes_interval);
                 clearInterval(seconds_interval);
@@ -76,21 +77,31 @@ function start(){
     }
 }
  function resetTimer(){
+    // Reset the "done" message
+    document.getElementById("done").innerHTML = "Timer is Reset...";
+    document.getElementById("done").classList.add("show_message");
+    setTimeout(function() {
+        document.getElementById("done").innerHTML = ""; 
+        document.getElementById("done").classList.remove("show_message"); 
+    }, 1000);
     if(timerState=="study"){
         if(sessionCount%4 == 0){
             minutes = 15;
             timerState = "longBreak";
             document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Long Break: You've earned it!";
+            resetLongBrkBtn();
         } else {
             minutes = 5;
             timerState = "shortBreak";
             document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Short Break: Relax!";
+            resetShortBrkBtn();
         }
     } else {
         minutes = 25;
         timerState = "study";
         sessionCount = sessionCount + 1;
         document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Time to Study!";
+        resetStudyBtn();
     }
     seconds = "00";
     document.getElementById("minutes").innerHTML = minutes;
@@ -102,20 +113,74 @@ function reset() {
     clearInterval(minutes_interval);
     clearInterval(seconds_interval);
     
-    // Reset minutes and seconds
+    // Play reset and Reset minutes and seconds
     resetAudio.play();
     resetTimer();
-    
-    // Play reset and Reset the "done" message
-    // reset.play();
-    document.getElementById("done").innerHTML = "Timer is Reset...";
-    document.getElementById("done").classList.add("show_message");
-    setTimeout(function() {
-        document.getElementById("done").innerHTML = ""; 
-        document.getElementById("done").classList.remove("show_message"); 
-    }, 1000);
     
     // Show the start button and hide the reset button
     document.getElementById("start").style.display = "inline"; 
     document.getElementById("reset").style.display = "none"; 
+}
+
+function resetStudyBtn(){
+    // Stop any ongoing timers
+    clearInterval(minutes_interval);
+    clearInterval(seconds_interval);
+    timerState = "study";
+    minutes = 25;
+    seconds = "00";
+    document.getElementById("minutes").innerHTML = minutes;
+    document.getElementById("seconds").innerHTML = seconds;
+    document.getElementById("start").style.display = "inline"; 
+    document.getElementById("reset").style.display = "none"; 
+    
+    document.body.style.backgroundColor = "rgb(186, 73, 73)";
+    document.getElementById('start').style.color = "rgb(186, 73, 73)";
+    document.getElementById('reset').style.color = "rgb(186, 73, 73)";
+    document.querySelector('.timer').style.backgroundColor = "rgb(200, 85, 85)";
+    document.querySelector('.studyBtn').style.backgroundColor = "rgb(186, 73, 73)";
+    document.querySelector('.shortBrkBtn').style.backgroundColor = "rgb(200, 85, 85)";
+    document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(200, 85, 85)";
+    document.querySelector('.show_message').style.color = "rgb(186, 73, 73)";
+}
+function resetShortBrkBtn(){
+    // Stop any ongoing timers
+    clearInterval(minutes_interval);
+    clearInterval(seconds_interval);
+    timerState = "shortBreak";
+    minutes = 5;
+    seconds = "00";
+    document.getElementById("minutes").innerHTML = minutes;
+    document.getElementById("seconds").innerHTML = seconds;
+    document.getElementById("start").style.display = "inline"; 
+    document.getElementById("reset").style.display = "none"; 
+    
+    document.body.style.backgroundColor = "rgb(73, 148, 186)";
+    document.getElementById('start').style.color = "rgb(73, 148, 186)";
+    document.getElementById('reset').style.color = "rgb(73, 148, 186)";
+    document.querySelector('.timer').style.backgroundColor = "rgb(90, 166, 205)";
+    document.querySelector('.studyBtn').style.backgroundColor = "rgb(90, 166, 205)";
+    document.querySelector('.shortBrkBtn').style.backgroundColor = "rgb(73, 148, 186)";
+    document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(90, 166, 205)";
+    document.querySelector('.show_message').style.color = "rgb(73, 148, 186)";
+}
+function resetLongBrkBtn(){
+    // Stop any ongoing timers
+    clearInterval(minutes_interval);
+    clearInterval(seconds_interval);
+    timerState = "longBreak";
+    minutes = 15;
+    seconds = "00";
+    document.getElementById("minutes").innerHTML = minutes;
+    document.getElementById("seconds").innerHTML = seconds;
+    document.getElementById("start").style.display = "inline"; 
+    document.getElementById("reset").style.display = "none"; 
+    
+    document.body.style.backgroundColor = "rgb(73, 109, 186)";
+    document.getElementById('start').style.color = "rgb(73, 109, 186)";
+    document.getElementById('reset').style.color = "rgb(73, 109, 186)";
+    document.querySelector('.timer').style.backgroundColor = "rgb(85, 122, 201)";
+    document.querySelector('.studyBtn').style.backgroundColor = "rgb(85, 122, 201)";
+    document.querySelector('.shortBrkBtn').style.backgroundColor = "rgb(85, 122, 201)";
+    document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(73, 109, 186)";document.querySelector('.show_message').style.color = "rgb(73, 109, 186)";
 }

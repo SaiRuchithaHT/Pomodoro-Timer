@@ -40,9 +40,9 @@
 
             <div class="container timer">
                 <div class="timerBtns">
-                    <button class="btn studyBtn" onclick="reset()" id="studyBtn">Study Timer</button>
-                    <button class="btn shortBrkBtn" onclick="reset()" id="shortBrkBtn">Short Break</button>
-                    <button class="btn longBrkBtn" onclick="reset()" id="longBrkBtn">Long Break</button>
+                    <button class="btn studyBtn" onclick="resetStudyBtn()" id="studyBtn">Study Timer</button>
+                    <button class="btn shortBrkBtn" onclick="resetShortBrkBtn()" id="shortBrkBtn">Short Break</button>
+                    <button class="btn longBrkBtn" onclick="resetLongBrkBtn()" id="longBrkBtn">Long Break</button>
                 </div>
                 <div class="row" >
                     <div class="col-5">
@@ -61,10 +61,13 @@
             <div class="sessionDetails">
                 <h4 id="sessionDetails">
                     Session 1: Time to Study!
-                    <i class="fa-solid fa-rotate-right refresh"></i>
+                    
                 </h4>
-                <!-- <button class="refresh" onclick="resetPomodoro()">
-                    <i class="fas fa-rotate-right"></i>
+                <!-- <a href="index.html" >
+                    <i class="fa-solid fa-rotate-right refresh"></i>
+                </a> -->
+                <!-- <button href="index.html">
+                    <i class="fa-solid fa-rotate-right refresh"></i>
                   </button> -->
             </div>
 

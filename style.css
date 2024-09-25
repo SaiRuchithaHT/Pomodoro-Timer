@@ -36,7 +36,7 @@ body {
 .sessionDetails {
     color: #fff;
     text-align: center;
-    padding: 3em 0 0 0;
+    padding: 1.5em 0 0 0;
 }
 
 .refresh {
@@ -52,7 +52,7 @@ body {
     background-color: #ffffff;
     padding: 0;
     display: block;
-    padding: 1em 2em 1em 2em;
+    padding: 0.5em 1em 0.5em 1em;
     font-size: 2em;
     border-radius: 5px;
 }
