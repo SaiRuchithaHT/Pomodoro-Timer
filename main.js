@@ -40,42 +40,43 @@ function start(){
     clearInterval(seconds_interval);
     minutes_interval = setInterval(minutesTimer, 60000);
     seconds_interval = setInterval(secondsTimer, 1000);
+}
 
-    function minutesTimer(){
-        minutes = minutes - 1;
+function minutesTimer(){
+    if (minutes > 0) {
+        minutes--;
         document.getElementById("minutes").innerHTML = minutes;
     }
-    function secondsTimer(){
-        seconds = seconds - 1;
-        document.getElementById("seconds").innerHTML = seconds;
-        //change
-        if(seconds <= 0){
-            if(minutes <= 0){
-                // Stop timers
-                clearInterval(minutes_interval);
-                clearInterval(seconds_interval);
+}
+function secondsTimer(){
+    if (seconds > 0) {
+        seconds--;
+    } else if (minutes > 0) {
+        minutes--;
+        seconds = 59;
+    }
+    document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+    document.getElementById("minutes").innerHTML = minutes;
+    
+    if (minutes === 0 && seconds === 0) {
+            // Stop timers
+            clearInterval(minutes_interval);
+            clearInterval(seconds_interval);
 
-                // Displaye break message
-                document.getElementById("done").innerHTML = "Session Completed! Take a Break!";
-                document.getElementById("done").classList.add("show_message");
-                var message_interval = setInterval(messageTimer, 5000);
-                clearInterval(message_interval);
+            // Ring bell and reset timer
+            bell.play();
+            resetTimer();
 
-                // Ring bell and reset timer
-                bell.play();
-                resetTimer();
-
-                // Update Buttons once message is shown
-                document.getElementById("start").style.display = "inline"; 
-                document.getElementById("reset").style.display = "none";
-            }
-            seconds = 60;
-        }
-        function messageTimer(){
-            document.getElementById("done").style.display = "none";
-        }
+            // Update Buttons once message is shown
+            document.getElementById("start").style.display = "inline"; 
+            document.getElementById("reset").style.display = "none";
     }
 }
+function messageTimer(){
+    document.getElementById("done").style.display = "none";
+    clearInterval(message_interval);
+}
+
  function resetTimer(){
     // Reset the "done" message
     document.getElementById("done").innerHTML = "Timer is Reset...";
@@ -85,6 +86,11 @@ function start(){
         document.getElementById("done").classList.remove("show_message"); 
     }, 1000);
     if(timerState=="study"){
+        // Display break message
+        document.getElementById("done").innerHTML = "Session Completed! Take a Break!";
+        document.getElementById("done").classList.add("show_message");
+        message_interval = setInterval(messageTimer, 3000);
+
         if(sessionCount%4 == 0){
             minutes = 15;
             timerState = "longBreak";
@@ -97,6 +103,11 @@ function start(){
             resetShortBrkBtn();
         }
     } else {
+        // Display break message
+        document.getElementById("done").innerHTML = "Study Time...";
+        document.getElementById("done").classList.add("show_message");
+        message_interval = setInterval(messageTimer, 3000);
+
         minutes = 25;
         timerState = "study";
         sessionCount = sessionCount + 1;
