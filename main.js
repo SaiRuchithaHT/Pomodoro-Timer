@@ -5,6 +5,7 @@ var sessionCount = 1;
 var minutes_interval;
 var seconds_interval;
 var message_interval;
+let startTime;
 
 var click = new Audio("./audios/click.mp3");
 var bell = new Audio("./audios/bell.mp3");
@@ -17,6 +18,7 @@ function template(){
 }
 
 function start(){
+    startTime = new Date();
     // Ring click & Update Button once start is clicked
     click.play();
     document.getElementById("start").style.display = "none";
@@ -120,6 +122,18 @@ function messageTimer(){
  }
 
 function reset() {
+    const endTime = new Date();  
+    let duration;
+    if (timerState === 'study') {
+        duration = 25;
+    } else if (timerState === 'shortBreak') {
+        duration = 5;
+    } else if (timerState === 'longBreak') {
+        duration = 15;
+    }
+
+    storeSession(timerState, duration, startTime.toISOString(), endTime.toISOString());
+
     // Stop any ongoing timers
     clearInterval(minutes_interval);
     clearInterval(seconds_interval);
@@ -194,4 +208,27 @@ function resetLongBrkBtn(){
     document.querySelector('.studyBtn').style.backgroundColor = "rgb(85, 122, 201)";
     document.querySelector('.shortBrkBtn').style.backgroundColor = "rgb(85, 122, 201)";
     document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(73, 109, 186)";document.querySelector('.show_message').style.color = "rgb(73, 109, 186)";
+}
+
+async function storeSession(sessionType, duration, startTime, endTime) {
+    const sessionData = {
+        sessionType: sessionType,
+        duration: duration,
+        startTime: startTime,
+        endTime: endTime
+    };
+
+    const response = await fetch('http://localhost:8080/api/sessions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(sessionData)
+    });
+
+    if (response.ok) {
+        console.log('Session stored successfully');
+    } else {
+        console.error('Error storing session');
+    }
 }
