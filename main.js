@@ -6,17 +6,23 @@ var minutes_interval;
 var seconds_interval;
 var message_interval;
 let startTime;
+let hoursStudied;
+let daysStudied;
+let daysStreak;
 
 var click = new Audio("./audios/click.mp3");
 var bell = new Audio("./audios/bell.mp3");
 var resetAudio = new Audio("./audios/reset.mp3");
 
+window.onload = function(){
+    template();
+    fetchActivitySummary();
+}
 function template(){
     document.getElementById("minutes").innerHTML = minutes;
     document.getElementById("seconds").innerHTML = seconds;
     document.getElementById("studyBtn").style.backgroundColor = "rgb(186, 73, 73)";
 }
-
 function start(){
     startTime = new Date();
     // Ring click & Update Button once start is clicked
@@ -43,7 +49,6 @@ function start(){
     minutes_interval = setInterval(minutesTimer, 60000);
     seconds_interval = setInterval(secondsTimer, 1000);
 }
-
 function minutesTimer(){
     if (minutes > 0) {
         minutes--;
@@ -54,7 +59,6 @@ function secondsTimer(){
     if (seconds > 0) {
         seconds--;
     } else if (minutes > 0) {
-        minutes--;
         seconds = 59;
     }
     document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
@@ -67,7 +71,7 @@ function secondsTimer(){
 
             // Ring bell and reset timer
             bell.play();
-            resetTimer();
+            reset();
 
             // Update Buttons once message is shown
             document.getElementById("start").style.display = "inline"; 
@@ -78,8 +82,7 @@ function messageTimer(){
     document.getElementById("done").style.display = "none";
     clearInterval(message_interval);
 }
-
- function resetTimer(){
+function resetTimer(){
     // Reset the "done" message
     document.getElementById("done").innerHTML = "Timer is Reset...";
     document.getElementById("done").classList.add("show_message");
@@ -119,20 +122,19 @@ function messageTimer(){
     seconds = "00";
     document.getElementById("minutes").innerHTML = minutes;
     document.getElementById("seconds").innerHTML = seconds;
- }
-
-function reset() {
+}
+function reset(){
     const endTime = new Date();  
     let duration;
     if (timerState === 'study') {
-        duration = 25;
+        duration = (seconds > 0) ? 25 - (minutes + 1) : 25 - minutes;
     } else if (timerState === 'shortBreak') {
-        duration = 5;
+        duration = (seconds > 0) ? 5 - (minutes + 1) : 5 - minutes;
     } else if (timerState === 'longBreak') {
-        duration = 15;
+        duration = (seconds > 0) ? 15 - (minutes + 1) : 15 - minutes;
     }
 
-    storeSession(timerState, duration, startTime.toISOString(), endTime.toISOString());
+    storeSession(timerState, duration, startTime.toLocaleString(), endTime.toLocaleString());
 
     // Stop any ongoing timers
     clearInterval(minutes_interval);
@@ -146,7 +148,6 @@ function reset() {
     document.getElementById("start").style.display = "inline"; 
     document.getElementById("reset").style.display = "none"; 
 }
-
 function resetStudyBtn(){
     // Stop any ongoing timers
     clearInterval(minutes_interval);
@@ -209,8 +210,7 @@ function resetLongBrkBtn(){
     document.querySelector('.shortBrkBtn').style.backgroundColor = "rgb(85, 122, 201)";
     document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(73, 109, 186)";document.querySelector('.show_message').style.color = "rgb(73, 109, 186)";
 }
-
-async function storeSession(sessionType, duration, startTime, endTime) {
+async function storeSession(sessionType, duration, startTime, endTime){
     const sessionData = {
         sessionType: sessionType,
         duration: duration,
@@ -231,4 +231,48 @@ async function storeSession(sessionType, duration, startTime, endTime) {
     } else {
         console.error('Error storing session');
     }
+}
+async function fetchActivitySummary(){
+    try {
+        const response = await fetch('http://localhost:8080/api/sessions');
+        if (response.ok) {
+            const sessions = await response.json();
+            updateActivitySummary(sessions);
+        } else {
+            console.error('Failed to fetch sessions');
+        }
+    } catch (error) {
+        console.error('Error fetching session data:', error);
+    }
+}
+function updateActivitySummary(sessions){
+    let totalFocusedHours = 0;
+    let uniqueDaysAccessed = new Set();
+    let currentStreak = 0;
+    let lastSessionDate = null;
+
+    sessions.forEach(session => {
+        totalFocusedHours += session.duration / 60;
+
+        const sessionDate = new Date(session.startTime).toDateString();
+        uniqueDaysAccessed.add(sessionDate);
+
+        if (lastSessionDate) {
+            const diffTime = Math.abs(new Date(sessionDate) - new Date(lastSessionDate));
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays === 1) {
+                currentStreak++;
+            } else {
+                currentStreak = 1; 
+            }
+        } else {
+            currentStreak = 1; 
+        }
+
+        lastSessionDate = sessionDate;
+    });
+
+    document.getElementById("hoursFocused").innerText = totalFocusedHours.toFixed(1); 
+    document.getElementById("daysAccessed").innerText = uniqueDaysAccessed.size; 
+    document.getElementById("dayStreak").innerText = currentStreak; 
 }
