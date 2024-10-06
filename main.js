@@ -4,7 +4,6 @@ var timerState = "study";
 var sessionCount = 1;
 var minutes_interval;
 var seconds_interval;
-var message_interval;
 let startTime;
 let hoursStudied;
 let daysStudied;
@@ -78,23 +77,16 @@ function secondsTimer(){
             document.getElementById("reset").style.display = "none";
     }
 }
-function messageTimer(){
-    document.getElementById("done").style.display = "none";
-    clearInterval(message_interval);
-}
 function resetTimer(){
-    // Reset the "done" message
-    document.getElementById("done").innerHTML = "Timer is Reset...";
-    document.getElementById("done").classList.add("show_message");
-    setTimeout(function() {
-        document.getElementById("done").innerHTML = ""; 
-        document.getElementById("done").classList.remove("show_message"); 
-    }, 1000);
+    document.getElementById("done").innerHTML = ""; 
+    document.getElementById("done").classList.remove("show_message");
     if(timerState=="study"){
         // Display break message
         document.getElementById("done").innerHTML = "Session Completed! Take a Break!";
         document.getElementById("done").classList.add("show_message");
-        message_interval = setInterval(messageTimer, 3000);
+        setTimeout(function() {
+            document.getElementById("done").classList.remove("show_message");
+        }, 3000);
 
         if(sessionCount%4 == 0){
             minutes = 15;
@@ -111,7 +103,9 @@ function resetTimer(){
         // Display break message
         document.getElementById("done").innerHTML = "Study Time...";
         document.getElementById("done").classList.add("show_message");
-        message_interval = setInterval(messageTimer, 3000);
+        setTimeout(function() {
+            document.getElementById("done").classList.remove("show_message");
+        }, 3000);
 
         minutes = 25;
         timerState = "study";
@@ -149,6 +143,13 @@ function reset(){
     document.getElementById("reset").style.display = "none"; 
 }
 function resetStudyBtn(){
+    // Reset the "done" message
+    document.getElementById("done").innerHTML = "Timer is Reset...";
+    document.getElementById("done").classList.add("show_message");
+    setTimeout(function() {
+        document.getElementById("done").innerHTML = ""; 
+        document.getElementById("done").classList.remove("show_message"); 
+    }, 1000);
     // Stop any ongoing timers
     clearInterval(minutes_interval);
     clearInterval(seconds_interval);
@@ -167,9 +168,17 @@ function resetStudyBtn(){
     document.querySelector('.studyBtn').style.backgroundColor = "rgb(186, 73, 73)";
     document.querySelector('.shortBrkBtn').style.backgroundColor = "rgb(200, 85, 85)";
     document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(200, 85, 85)";
+    document.querySelector('.reportBtn').style.backgroundColor = "rgb(200, 85, 85)";
     document.querySelector('.show_message').style.color = "rgb(186, 73, 73)";
 }
 function resetShortBrkBtn(){
+    // Reset the "done" message
+    document.getElementById("done").innerHTML = "Timer is Reset...";
+    document.getElementById("done").classList.add("show_message");
+    setTimeout(function() {
+        document.getElementById("done").innerHTML = ""; 
+        document.getElementById("done").classList.remove("show_message"); 
+    }, 1000);
     // Stop any ongoing timers
     clearInterval(minutes_interval);
     clearInterval(seconds_interval);
@@ -188,9 +197,17 @@ function resetShortBrkBtn(){
     document.querySelector('.studyBtn').style.backgroundColor = "rgb(90, 166, 205)";
     document.querySelector('.shortBrkBtn').style.backgroundColor = "rgb(73, 148, 186)";
     document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(90, 166, 205)";
+    document.querySelector('.reportBtn').style.backgroundColor = "rgb(90, 166, 205)";
     document.querySelector('.show_message').style.color = "rgb(73, 148, 186)";
 }
 function resetLongBrkBtn(){
+    // Reset the "done" message
+    document.getElementById("done").innerHTML = "Timer is Reset...";
+    document.getElementById("done").classList.add("show_message");
+    setTimeout(function() {
+        document.getElementById("done").innerHTML = ""; 
+        document.getElementById("done").classList.remove("show_message"); 
+    }, 1000);
     // Stop any ongoing timers
     clearInterval(minutes_interval);
     clearInterval(seconds_interval);
@@ -208,7 +225,9 @@ function resetLongBrkBtn(){
     document.querySelector('.timer').style.backgroundColor = "rgb(85, 122, 201)";
     document.querySelector('.studyBtn').style.backgroundColor = "rgb(85, 122, 201)";
     document.querySelector('.shortBrkBtn').style.backgroundColor = "rgb(85, 122, 201)";
-    document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(73, 109, 186)";document.querySelector('.show_message').style.color = "rgb(73, 109, 186)";
+    document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(73, 109, 186)";
+    document.querySelector('.reportBtn').style.backgroundColor = "rgb(85, 122, 201)";
+    document.querySelector('.show_message').style.color = "rgb(73, 109, 186)";
 }
 async function storeSession(sessionType, duration, startTime, endTime){
     const sessionData = {
@@ -218,7 +237,7 @@ async function storeSession(sessionType, duration, startTime, endTime){
         endTime: endTime
     };
 
-    const response = await fetch('http://localhost:8080/api/sessions', {
+    const response = await fetch('http://localhost:8080/createSession', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -234,7 +253,7 @@ async function storeSession(sessionType, duration, startTime, endTime){
 }
 async function fetchActivitySummary(){
     try {
-        const response = await fetch('http://localhost:8080/api/sessions');
+        const response = await fetch('http://localhost:8080/getAllSessions');
         if (response.ok) {
             const sessions = await response.json();
             updateActivitySummary(sessions);

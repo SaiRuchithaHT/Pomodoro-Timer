@@ -4,9 +4,16 @@ body {
 }
 
 .heading {
+    text-align: left;
     color: #ffffff;
-    font-size: 60px;
     font-family: "Arial Rounded", Arial, sans-serif;
+}
+
+.header {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .row {
@@ -43,7 +50,6 @@ body {
     color: #fff;
     text-align: center;
     margin: 0 0 0 1em;
-    /* background-color: rgb(186, 73, 73); */
 }
 
 .btn {
@@ -57,7 +63,7 @@ body {
     border-radius: 5px;
 }
 
-.studyBtn, .shortBrkBtn,  .longBrkBtn {
+.studyBtn, .shortBrkBtn,  .longBrkBtn, .reportBtn {
     color: #fff;
     font-size: 20px;
     display: inline-flex;
@@ -66,10 +72,6 @@ body {
     background: rgb(200, 85, 85);
     cursor: pointer;
     padding: 1em 1em 1em 1em;
-}
-
-.studyBtn:hover, .shortBrkBtn:hover,  .longBrkBtn:hover {
-    background-color: rgb(186, 73, 73);
 }
 
 .show_message {
@@ -81,7 +83,6 @@ body {
     transition: 0.5s ease;
 }
 
-/* Activity Summary Panel inside the modal */
 .summary-stats .stat {
     display: flex;
     flex-direction: column;
