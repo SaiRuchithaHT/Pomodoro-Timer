@@ -40,7 +40,7 @@
                 <!-- Heading -->
                 <h2 class="my-5 heading">POMODORO APP</h2>
                 <!-- Report Button -->
-                <button class="btn reportBtn" id="reportBtn" data-toggle="modal" data-target="#activitySummaryModal">
+                <button class="btn reportBtn" onclick="fetchActivitySummary()" id="reportBtn" data-toggle="modal" data-target="#activitySummaryModal">
                     Report
                 </button>
             </div>
@@ -103,7 +103,11 @@
                         <div class="summary-stats">
                             <div class="stat">
                                 <i class="fas fa-hourglass-half"></i>
-                                <h3 id="hoursFocused"></h3>
+                                <div class="time-display">
+                                    <span id="hoursFocused"></span>
+                                    <span>:</span>
+                                    <span id="minutesFocused"></span>
+                                </div>                                
                                 <p>hours focused</p>
                             </div>
                             <div class="stat">
@@ -113,7 +117,7 @@
                             </div>
                             <div class="stat">
                                 <i class="fas fa-fire"></i>
-                                <h3 id="dayStreak">0</h3>
+                                <h3 id="dayStreak"></h3>
                                 <p>day streak</p>
                             </div>
                         </div>

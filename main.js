@@ -15,7 +15,7 @@ var resetAudio = new Audio("./audios/reset.mp3");
 
 window.onload = function(){
     template();
-    fetchActivitySummary();
+    // fetchActivitySummary();
 }
 function template(){
     document.getElementById("minutes").innerHTML = minutes;
@@ -45,20 +45,21 @@ function start(){
     // Stop any ongoing timers & Start the timers
     clearInterval(minutes_interval);
     clearInterval(seconds_interval);
-    minutes_interval = setInterval(minutesTimer, 60000);
+    // minutes_interval = setInterval(minutesTimer, 60000);
     seconds_interval = setInterval(secondsTimer, 1000);
 }
-function minutesTimer(){
-    if (minutes > 0) {
-        minutes--;
-        document.getElementById("minutes").innerHTML = minutes;
-    }
-}
+// function minutesTimer(){
+//     if (minutes > 0) {
+//         minutes--;
+//         document.getElementById("minutes").innerHTML = minutes;
+//     }
+// }
 function secondsTimer(){
     if (seconds > 0) {
         seconds--;
     } else if (minutes > 0) {
         seconds = 59;
+        minutes--;
     }
     document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
     document.getElementById("minutes").innerHTML = minutes;
@@ -233,8 +234,8 @@ async function storeSession(sessionType, duration, startTime, endTime){
     const sessionData = {
         sessionType: sessionType,
         duration: duration,
-        startTime: startTime,
-        endTime: endTime
+        startTime: new Date(startTime).toISOString(),
+        endTime: new Date(endTime).toISOString()
     };
 
     const response = await fetch('http://localhost:8080/createSession', {
@@ -253,7 +254,7 @@ async function storeSession(sessionType, duration, startTime, endTime){
 }
 async function fetchActivitySummary(){
     try {
-        const response = await fetch('http://localhost:8080/getAllSessions');
+        const response = await fetch('http://localhost:8080/getActivitySummary');
         if (response.ok) {
             const sessions = await response.json();
             updateActivitySummary(sessions);
@@ -265,33 +266,10 @@ async function fetchActivitySummary(){
     }
 }
 function updateActivitySummary(sessions){
-    let totalFocusedHours = 0;
-    let uniqueDaysAccessed = new Set();
-    let currentStreak = 0;
-    let lastSessionDate = null;
+    const { hoursFocused, minutesFocused, daysAccessed, dayStreak } = sessions;
 
-    sessions.forEach(session => {
-        totalFocusedHours += session.duration / 60;
-
-        const sessionDate = new Date(session.startTime).toDateString();
-        uniqueDaysAccessed.add(sessionDate);
-
-        if (lastSessionDate) {
-            const diffTime = Math.abs(new Date(sessionDate) - new Date(lastSessionDate));
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays === 1) {
-                currentStreak++;
-            } else {
-                currentStreak = 1; 
-            }
-        } else {
-            currentStreak = 1; 
-        }
-
-        lastSessionDate = sessionDate;
-    });
-
-    document.getElementById("hoursFocused").innerText = totalFocusedHours.toFixed(1); 
-    document.getElementById("daysAccessed").innerText = uniqueDaysAccessed.size; 
-    document.getElementById("dayStreak").innerText = currentStreak; 
+    document.getElementById("hoursFocused").innerText = hoursFocused + "h";
+    document.getElementById("minutesFocused").innerText = minutesFocused + "m";
+    document.getElementById("daysAccessed").innerText = daysAccessed;
+    document.getElementById("dayStreak").innerText = dayStreak; 
 }

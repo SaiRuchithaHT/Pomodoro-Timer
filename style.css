@@ -104,3 +104,14 @@ body {
     font-size: 1rem;
     color: #6c757d;
 }
+
+.time-display {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    font-size: 24px; 
+}
+
+.time-display span {
+    margin: 0 5px; 
+}
