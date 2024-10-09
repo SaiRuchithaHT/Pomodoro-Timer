@@ -63,6 +63,11 @@ body {
     border-radius: 5px;
 }
 
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 .studyBtn, .shortBrkBtn,  .longBrkBtn, .reportBtn {
     color: #fff;
     font-size: 20px;

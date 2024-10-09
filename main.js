@@ -5,6 +5,7 @@ var sessionCount = 1;
 var minutes_interval;
 var seconds_interval;
 let startTime;
+let localDate;
 let hoursStudied;
 let daysStudied;
 let daysStreak;
@@ -24,23 +25,24 @@ function template(){
 }
 function start(){
     startTime = new Date();
+    localDate = new Date();
     // Ring click & Update Button once start is clicked
     click.play();
     document.getElementById("start").style.display = "none";
     document.getElementById("reset").style.display = "inline";  
 
     if(timerState=="study"){
-        minutes = 24;
+        minutes = 25;
     } else if (timerState=="shortBreak"){
-        minutes = 4;
+        minutes = 5;
     } else if (timerState=="longBreak"){
-        minutes = 14;
+        minutes = 15;
     }
-    seconds = 59;
+    seconds = 0;
 
     // Update the displayed time
     document.getElementById("minutes").innerHTML = minutes;
-    document.getElementById("seconds").innerHTML = seconds;
+    document.getElementById("seconds").innerHTML = "00";
 
     // Stop any ongoing timers & Start the timers
     clearInterval(minutes_interval);
@@ -129,7 +131,7 @@ function reset(){
         duration = (seconds > 0) ? 15 - (minutes + 1) : 15 - minutes;
     }
 
-    storeSession(timerState, duration, startTime.toLocaleString(), endTime.toLocaleString());
+    storeSession(timerState, duration, startTime.toLocaleString(), endTime.toLocaleString(), localDate.toLocaleString());
 
     // Stop any ongoing timers
     clearInterval(minutes_interval);
@@ -230,14 +232,17 @@ function resetLongBrkBtn(){
     document.querySelector('.reportBtn').style.backgroundColor = "rgb(85, 122, 201)";
     document.querySelector('.show_message').style.color = "rgb(73, 109, 186)";
 }
-async function storeSession(sessionType, duration, startTime, endTime){
+async function storeSession(sessionType, duration, startTime, endTime, localDate){
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const sessionData = {
         sessionType: sessionType,
         duration: duration,
         startTime: new Date(startTime).toISOString(),
-        endTime: new Date(endTime).toISOString()
+        endTime: new Date(endTime).toISOString(),
+        localDate: localDate.toString().split(',')[0],
+        userTimeZone: userTimeZone
     };
-
+    
     const response = await fetch('http://localhost:8080/createSession', {
         method: 'POST',
         headers: {
@@ -253,8 +258,10 @@ async function storeSession(sessionType, duration, startTime, endTime){
     }
 }
 async function fetchActivitySummary(){
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const encodedTimeZone = encodeURIComponent(userTimeZone);
     try {
-        const response = await fetch('http://localhost:8080/getActivitySummary');
+        const response = await fetch(`http://localhost:8080/getActivitySummary?userTimeZone=${encodedTimeZone}`);
         if (response.ok) {
             const sessions = await response.json();
             updateActivitySummary(sessions);
