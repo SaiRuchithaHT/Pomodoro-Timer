@@ -16,7 +16,6 @@ var resetAudio = new Audio("./audios/reset.mp3");
 
 window.onload = function(){
     template();
-    // fetchActivitySummary();
 }
 function template(){
     document.getElementById("minutes").innerHTML = minutes;
@@ -47,15 +46,8 @@ function start(){
     // Stop any ongoing timers & Start the timers
     clearInterval(minutes_interval);
     clearInterval(seconds_interval);
-    // minutes_interval = setInterval(minutesTimer, 60000);
     seconds_interval = setInterval(secondsTimer, 1000);
 }
-// function minutesTimer(){
-//     if (minutes > 0) {
-//         minutes--;
-//         document.getElementById("minutes").innerHTML = minutes;
-//     }
-// }
 function secondsTimer(){
     if (seconds > 0) {
         seconds--;
