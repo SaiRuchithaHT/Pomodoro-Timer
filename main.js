@@ -272,3 +272,18 @@ function updateActivitySummary(sessions){
     document.getElementById("daysAccessed").innerText = daysAccessed;
     document.getElementById("dayStreak").innerText = dayStreak; 
 }
+
+// Sample credentials
+const validUsername = "user";
+const validPassword = "password123";
+
+function login() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    if (username === validUsername && password === validPassword) {
+        window.location.href = "index.html";
+    } else {
+        document.getElementById("error-message").style.display = "block";
+    }
+}
