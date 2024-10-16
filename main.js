@@ -226,6 +226,7 @@ function resetLongBrkBtn(){
 }
 async function storeSession(sessionType, duration, startTime, endTime, localDate){
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const username = localStorage.getItem("username");
     const sessionData = {
         sessionType: sessionType,
         duration: duration,
@@ -235,7 +236,7 @@ async function storeSession(sessionType, duration, startTime, endTime, localDate
         userTimeZone: userTimeZone
     };
     
-    const response = await fetch('http://localhost:8080/createSession', {
+    const response = await fetch(`http://localhost:8080/createSession?username=${username}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -252,8 +253,9 @@ async function storeSession(sessionType, duration, startTime, endTime, localDate
 async function fetchActivitySummary(){
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const encodedTimeZone = encodeURIComponent(userTimeZone);
+    const username = localStorage.getItem("username");
     try {
-        const response = await fetch(`http://localhost:8080/getActivitySummary?userTimeZone=${encodedTimeZone}`);
+        const response = await fetch(`http://localhost:8080/getActivitySummary?userTimeZone=${encodedTimeZone}&username=${username}`);
         if (response.ok) {
             const sessions = await response.json();
             updateActivitySummary(sessions);
@@ -272,18 +274,60 @@ function updateActivitySummary(sessions){
     document.getElementById("daysAccessed").innerText = daysAccessed;
     document.getElementById("dayStreak").innerText = dayStreak; 
 }
-
-// Sample credentials
-const validUsername = "user";
-const validPassword = "password123";
-
 function login() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    if (username === validUsername && password === validPassword) {
-        window.location.href = "index.html";
-    } else {
+    fetch(`http://localhost:8080/login?username=${username}&password=${password}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    })
+    .then(response => {
+        if (response.ok) {
+            localStorage.setItem("username", username);
+            window.location.href = "index.html";
+        } else {
+            throw new Error("Invalid credentials");
+        }
+    })
+    .then(data => {
+        document.getElementById("responseMessage").textContent = data;
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        document.getElementById("responseMessage").textContent = 'Login failed: ' + error.message;
+    });
+}
+function signUp() {
+    const email = document.getElementById("email").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    const user = {
+        email: email,
+        username: username,
+        password: password
+    };
+
+    fetch('http://localhost:8080/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    })
+    .then(response => {
+        if (response.ok) {
+            // Redirect to login page after successful sign-up
+            window.location.href = "login.html";
+        } else {
+            document.getElementById("error-message").style.display = "block";
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
         document.getElementById("error-message").style.display = "block";
-    }
+    });
 }
