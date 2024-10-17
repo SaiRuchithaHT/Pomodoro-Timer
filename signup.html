@@ -7,39 +7,26 @@
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
 
+    <!-- Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
+
+    <!-- My CSS-->
+    <link rel="stylesheet" href="signupStyle.css">
+
+    <!-- My JS-->
+    <script src="main.js"></script>
+
+    <!-- Default Favicon -->
+    <link id="favicon" rel="icon" href="./favicons/red.png" type="image/jpeg">
+
     <title>Pomodoro App - Sign Up</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f5f5f5;
-        }
-        .signup-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-        }
-        .signup-container h3 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .signup-container .form-group {
-            margin-bottom: 20px;
-        }
-        .signup-container .btn {
-            width: 100%;
-        }
-        .error-message {
-            color: red;
-            text-align: center;
-            display: none;
-        }
-    </style>
 </head>
 <body>
+    <div class="heading">
+        <h1>
+            POMODORO APP
+        </h1>
+    </div>
     <div class="signup-container">
         <h3>Pomodoro App - Sign Up</h3>
         <div class="form-group">
@@ -56,19 +43,17 @@
         </div>
         <button class="btn btn-primary" onclick="signUp()">Sign Up</button>
         <p id="error-message" class="error-message">Sign-up failed, please try again</p>
-        <div>
-        <h6>
+    </div>
+    <div class="login">
+        <h5>
             Already have an account? 
             <a href="login.html">Login</a>
-        </h6>
+        </h5>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
-    <!-- My JS -->
-    <script src="main.js"></script>
 </body>
 </html>

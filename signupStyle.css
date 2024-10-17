@@ -1,0 +1,47 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(186, 73, 73);
+    flex-direction: column;
+}
+.heading h1 {
+    color: white;
+    margin: 0 0 1em 0;
+    justify-content: center;
+    align-items: center;
+}
+.signup-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.signup-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.signup-container .form-group {
+    margin-bottom: 20px;
+}
+.signup-container .btn {
+    width: 100%;
+}
+.error-message {
+    color: red;
+    text-align: center;
+    display: none;
+}
+.login h5 {
+    text-align: center;
+    padding: 1em 0 0 0;
+}
+.login a {
+    color: aliceblue;
+}
