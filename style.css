@@ -68,7 +68,7 @@ body {
     box-shadow: none;
 }
 
-.studyBtn, .shortBrkBtn,  .longBrkBtn, .reportBtn {
+.studyBtn, .shortBrkBtn,  .longBrkBtn, .reportBtn, .logoutBtn {
     color: #fff;
     font-size: 20px;
     display: inline-flex;
@@ -77,6 +77,14 @@ body {
     background: rgb(200, 85, 85);
     cursor: pointer;
     padding: 1em 1em 1em 1em;
+}
+
+.logoutBtn a{
+    color: #fff;
+}
+
+.logoutBtn a:hover {
+    text-decoration: none;
 }
 
 .show_message {
