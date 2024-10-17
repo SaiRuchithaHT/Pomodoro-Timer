@@ -289,7 +289,7 @@ function login() {
             localStorage.setItem("username", username);
             window.location.href = "index.html";
         } else {
-            throw new Error("Invalid credentials");
+            document.getElementById("error-message").style.display = "block";
         }
     })
     .then(data => {
