@@ -112,14 +112,10 @@ function resetTimer(){
 function reset(){
     const endTime = new Date();  
     let duration;
-    if (timerState === 'study') {
+    if (timerState === 'study' && localStorage.getItem("username")!=null) {
         duration = (seconds > 0) ? 25 - (minutes + 1) : 25 - minutes;
         storeSession(timerState, duration, startTime.toLocaleString(), endTime.toLocaleString(), localDate.toLocaleString());    
-    } else if (timerState === 'shortBreak') {
-        duration = (seconds > 0) ? 5 - (minutes + 1) : 5 - minutes;
-    } else if (timerState === 'longBreak') {
-        duration = (seconds > 0) ? 15 - (minutes + 1) : 15 - minutes;
-    }
+    } 
 
     // Stop any ongoing timers
     clearInterval(minutes_interval);
