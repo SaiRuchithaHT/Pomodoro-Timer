@@ -137,7 +137,7 @@ function resetStudyBtn(){
     // Reset the "done" message
     document.getElementById("done").innerHTML = "Timer is Reset...";
     document.getElementById("done").classList.add("show_message");
-    document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Time to Study!";
+    document.getElementById("sessionDetails").innerHTML = "Time to Study!";
     setTimeout(function() {
         document.getElementById("done").innerHTML = ""; 
         document.getElementById("done").classList.remove("show_message"); 
@@ -168,7 +168,7 @@ function resetShortBrkBtn(){
     // Reset the "done" message
     document.getElementById("done").innerHTML = "Timer is Reset...";
     document.getElementById("done").classList.add("show_message");
-    document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Short Break: Relax!";
+    document.getElementById("sessionDetails").innerHTML = "Short Break: Relax!";
     setTimeout(function() {
         document.getElementById("done").innerHTML = ""; 
         document.getElementById("done").classList.remove("show_message"); 
@@ -199,7 +199,7 @@ function resetLongBrkBtn(){
     // Reset the "done" message
     document.getElementById("done").innerHTML = "Timer is Reset...";
     document.getElementById("done").classList.add("show_message");
-    document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Long Break: You've earned it!";
+    document.getElementById("sessionDetails").innerHTML = "Long Break: You've earned it!";
     setTimeout(function() {
         document.getElementById("done").innerHTML = ""; 
         document.getElementById("done").classList.remove("show_message"); 
@@ -318,11 +318,23 @@ function signUp() {
         return;
     }
 
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const usernameRegex = /^[a-zA-Z0-9_]{3,15}$/;
     const passwordRegex = /^[A-Za-z0-9]{8,12}$/;
 
+    if (!emailRegex.test(email)) {
+        document.getElementById("error-message").style.display = "block";
+        document.getElementById("error-message").innerHTML = "Email address is not valid";
+        return;
+    }
+    if (!usernameRegex.test(username)) {
+        document.getElementById("error-message").style.display = "block";
+        document.getElementById("error-message").innerHTML = "Username must be 3-15 characters long and only contain letters, numbers and _";
+        return;
+    }
     if (!passwordRegex.test(password)) {
         document.getElementById("error-message").style.display = "block";
-        document.getElementById("error-message").innerHTML = "Password must be 8-12 characters long and only contain letters and numbers.";
+        document.getElementById("error-message").innerHTML = "Password must be 8-12 characters long and only contain letters and numbers";
         return;
     }
 
