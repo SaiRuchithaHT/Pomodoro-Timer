@@ -1,0 +1,3 @@
+check for empty login, signup fields
+displaying short break relax! after reverting back to study timer after short break;
+forgot password

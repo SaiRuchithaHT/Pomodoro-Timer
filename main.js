@@ -86,12 +86,10 @@ function resetTimer(){
         if(sessionCount%4 == 0){
             minutes = 15;
             timerState = "longBreak";
-            document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Long Break: You've earned it!";
             resetLongBrkBtn();
         } else {
             minutes = 5;
             timerState = "shortBreak";
-            document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Short Break: Relax!";
             resetShortBrkBtn();
         }
     } else {
@@ -105,7 +103,6 @@ function resetTimer(){
         minutes = 25;
         timerState = "study";
         sessionCount = sessionCount + 1;
-        document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Time to Study!";
         resetStudyBtn();
     }
     seconds = "00";
@@ -117,13 +114,12 @@ function reset(){
     let duration;
     if (timerState === 'study') {
         duration = (seconds > 0) ? 25 - (minutes + 1) : 25 - minutes;
+        storeSession(timerState, duration, startTime.toLocaleString(), endTime.toLocaleString(), localDate.toLocaleString());    
     } else if (timerState === 'shortBreak') {
         duration = (seconds > 0) ? 5 - (minutes + 1) : 5 - minutes;
     } else if (timerState === 'longBreak') {
         duration = (seconds > 0) ? 15 - (minutes + 1) : 15 - minutes;
     }
-
-    storeSession(timerState, duration, startTime.toLocaleString(), endTime.toLocaleString(), localDate.toLocaleString());
 
     // Stop any ongoing timers
     clearInterval(minutes_interval);
@@ -141,6 +137,7 @@ function resetStudyBtn(){
     // Reset the "done" message
     document.getElementById("done").innerHTML = "Timer is Reset...";
     document.getElementById("done").classList.add("show_message");
+    document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Time to Study!";
     setTimeout(function() {
         document.getElementById("done").innerHTML = ""; 
         document.getElementById("done").classList.remove("show_message"); 
@@ -164,12 +161,14 @@ function resetStudyBtn(){
     document.querySelector('.shortBrkBtn').style.backgroundColor = "rgb(200, 85, 85)";
     document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(200, 85, 85)";
     document.querySelector('.reportBtn').style.backgroundColor = "rgb(200, 85, 85)";
+    document.querySelector('.logoutBtn').style.backgroundColor = "rgb(200, 85, 85)";
     document.querySelector('.show_message').style.color = "rgb(186, 73, 73)";
 }
 function resetShortBrkBtn(){
     // Reset the "done" message
     document.getElementById("done").innerHTML = "Timer is Reset...";
     document.getElementById("done").classList.add("show_message");
+    document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Short Break: Relax!";
     setTimeout(function() {
         document.getElementById("done").innerHTML = ""; 
         document.getElementById("done").classList.remove("show_message"); 
@@ -193,12 +192,14 @@ function resetShortBrkBtn(){
     document.querySelector('.shortBrkBtn').style.backgroundColor = "rgb(73, 148, 186)";
     document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(90, 166, 205)";
     document.querySelector('.reportBtn').style.backgroundColor = "rgb(90, 166, 205)";
+    document.querySelector('.logoutBtn').style.backgroundColor = "rgb(90, 166, 205)";
     document.querySelector('.show_message').style.color = "rgb(73, 148, 186)";
 }
 function resetLongBrkBtn(){
     // Reset the "done" message
     document.getElementById("done").innerHTML = "Timer is Reset...";
     document.getElementById("done").classList.add("show_message");
+    document.getElementById("sessionDetails").innerHTML = "Session " + sessionCount + ": Long Break: You've earned it!";
     setTimeout(function() {
         document.getElementById("done").innerHTML = ""; 
         document.getElementById("done").classList.remove("show_message"); 
@@ -222,6 +223,7 @@ function resetLongBrkBtn(){
     document.querySelector('.shortBrkBtn').style.backgroundColor = "rgb(85, 122, 201)";
     document.querySelector('.longBrkBtn').style.backgroundColor = "rgb(73, 109, 186)";
     document.querySelector('.reportBtn').style.backgroundColor = "rgb(85, 122, 201)";
+    document.querySelector('.logoutBtn').style.backgroundColor = "rgb(85, 122, 201)";
     document.querySelector('.show_message').style.color = "rgb(73, 109, 186)";
 }
 async function storeSession(sessionType, duration, startTime, endTime, localDate){
@@ -236,7 +238,7 @@ async function storeSession(sessionType, duration, startTime, endTime, localDate
         userTimeZone: userTimeZone
     };
     
-    const response = await fetch(`http://localhost:8080/createSession?username=${username}`, {
+    const response = await fetch(`https://pomodoro-app-42dad7a6e3f0.herokuapp.com/createSession?username=${username}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -255,7 +257,7 @@ async function fetchActivitySummary(){
     const encodedTimeZone = encodeURIComponent(userTimeZone);
     const username = localStorage.getItem("username");
     try {
-        const response = await fetch(`http://localhost:8080/getActivitySummary?userTimeZone=${encodedTimeZone}&username=${username}`);
+        const response = await fetch(`https://pomodoro-app-42dad7a6e3f0.herokuapp.com?userTimeZone=${encodedTimeZone}&username=${username}`);
         if (response.ok) {
             const sessions = await response.json();
             updateActivitySummary(sessions);
@@ -275,10 +277,16 @@ function updateActivitySummary(sessions){
     document.getElementById("dayStreak").innerText = dayStreak; 
 }
 function login() {
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    fetch(`http://localhost:8080/login?username=${username}&password=${password}`, {
+    if(username.length === 0 || password.length === 0){
+        document.getElementById("error-message").style.display = "block";
+        document.getElementById("error-message").innerHTML = "Username/Password cannot be empty";
+        return;
+    }
+
+    fetch(`https://pomodoro-app-42dad7a6e3f0.herokuapp.com/login?username=${username}&password=${password}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -289,21 +297,34 @@ function login() {
             localStorage.setItem("username", username);
             window.location.href = "index.html";
         } else {
-            document.getElementById("error-message").style.display = "block";
+            return response.text().then(errorMessage => {
+                throw new Error(errorMessage); 
+            });
         }
     })
-    .then(data => {
-        document.getElementById("responseMessage").textContent = data;
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        document.getElementById("responseMessage").textContent = 'Login failed: ' + error.message;
+    .catch(error => {
+        document.getElementById("error-message").style.display = "block";
+        document.getElementById("error-message").innerHTML = error.message;
     });
 }
 function signUp() {
-    const email = document.getElementById("email").value;
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value.trim();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if(email.length === 0 || username.length === 0){
+        document.getElementById("error-message").style.display = "block";
+        document.getElementById("error-message").innerHTML = "Email/Username cannot be empty";
+        return;
+    }
+
+    const passwordRegex = /^[A-Za-z0-9]{8,12}$/;
+
+    if (!passwordRegex.test(password)) {
+        document.getElementById("error-message").style.display = "block";
+        document.getElementById("error-message").innerHTML = "Password must be 8-12 characters long and only contain letters and numbers.";
+        return;
+    }
 
     const user = {
         email: email,
@@ -311,7 +332,7 @@ function signUp() {
         password: password
     };
 
-    fetch('http://localhost:8080/signup', {
+    fetch('https://pomodoro-app-42dad7a6e3f0.herokuapp.com/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -320,14 +341,15 @@ function signUp() {
     })
     .then(response => {
         if (response.ok) {
-            // Redirect to login page after successful sign-up
-            window.location.href = "login.html";
+            window.location.href = "login.html";  
         } else {
-            document.getElementById("error-message").style.display = "block";
+            return response.text().then(errorMessage => {
+                throw new Error(errorMessage); 
+            });
         }
     })
     .catch(error => {
-        console.error('Error:', error);
         document.getElementById("error-message").style.display = "block";
+        document.getElementById("error-message").innerHTML = error.message;
     });
 }

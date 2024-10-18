@@ -21,7 +21,7 @@ body {
     height: 350px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
 }
 .login-container h3 {
     text-align: center;
@@ -37,6 +37,7 @@ body {
     color: red;
     text-align: center;
     display: none;
+    padding: 1em 0 0 0;
 }
 .signup h5 {
     text-align: center;
