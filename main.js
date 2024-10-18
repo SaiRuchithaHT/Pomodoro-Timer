@@ -257,7 +257,7 @@ async function fetchActivitySummary(){
     const encodedTimeZone = encodeURIComponent(userTimeZone);
     const username = localStorage.getItem("username");
     try {
-        const response = await fetch(`https://pomodoro-app-42dad7a6e3f0.herokuapp.com?userTimeZone=${encodedTimeZone}&username=${username}`);
+        const response = await fetch(`https://pomodoro-app-42dad7a6e3f0.herokuapp.com/getActivitySummary?userTimeZone=${encodedTimeZone}&username=${username}`);
         if (response.ok) {
             const sessions = await response.json();
             updateActivitySummary(sessions);
