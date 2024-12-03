@@ -39,7 +39,14 @@
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" id="password" class="form-control" placeholder="Enter password">
+            <div class="input-group">
+                <input type="password" id="password" class="form-control" placeholder="Enter password">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+            </div>
         </div>
         <button class="btn btn-primary" onclick="signUp()">Sign Up</button>
         <p id="error-message" class="error-message">Sign-up failed, please try again</p>
@@ -55,5 +62,23 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <!-- Password Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordField = document.getElementById('password');
+
+            togglePassword.addEventListener('click', () => {
+                // Toggle password visibility
+                const type = passwordField.type === 'password' ? 'text' : 'password';
+                passwordField.type = type;
+
+                // Toggle icon class
+                togglePassword.innerHTML = type === 'password' 
+                    ? '<i class="fas fa-eye"></i>' 
+                    : '<i class="fas fa-eye-slash"></i>';
+            });
+        });
+    </script>
 </body>
 </html>
