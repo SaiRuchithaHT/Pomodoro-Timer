@@ -234,7 +234,7 @@ async function storeSession(sessionType, duration, startTime, endTime, localDate
         userTimeZone: userTimeZone
     };
     
-    const response = await fetch(`http://localhost:8080/createSession?username=${username}`, {
+    const response = await fetch(`https://pomodoro-timer-backend.onrender.com/createSession?username=${username}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -253,7 +253,7 @@ async function fetchActivitySummary(){
     const encodedTimeZone = encodeURIComponent(userTimeZone);
     const username = localStorage.getItem("username");
     try {
-        const response = await fetch(`http://localhost:8080/getActivitySummary?userTimeZone=${encodedTimeZone}&username=${username}`);
+        const response = await fetch(`https://pomodoro-timer-backend.onrender.com/getActivitySummary?userTimeZone=${encodedTimeZone}&username=${username}`);
         if (response.ok) {
             const sessions = await response.json();
             updateActivitySummary(sessions);
@@ -282,7 +282,7 @@ function login() {
         return;
     }
 
-    fetch(`http://localhost:8080/login?username=${username}&password=${password}`, {
+    fetch(`https://pomodoro-timer-backend.onrender.com/login?username=${username}&password=${password}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -340,7 +340,7 @@ function signUp() {
         password: password
     };
 
-    fetch('http://localhost:8080/signup', {
+    fetch('https://pomodoro-timer-backend.onrender.com/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
